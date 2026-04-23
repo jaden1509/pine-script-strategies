@@ -12,5 +12,7 @@ Developed as part of personal research into quantitative strategy and ICT concep
 
 | iFVG entry - NY killzone only | trades only iFVG's formed in the NY session | NQ1! | all timeframes |
 
+| EMA RSI Trend Continuation | EMA RSI session-based trend strategy | NQ1! | 5 min - preferably |
+
 ## Backtesting Environment
 - Platform: TradingView Strategy Tester
