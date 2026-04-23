@@ -1,0 +1,59 @@
+// This Pine Script® code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © jadenmachado1234
+
+//@version=6
+strategy("My strategy", overlay=true)
+
+// INPUTS
+// indicator inputs
+inFastEMA  = input.int(50, 'Fast EMA', step = 1)
+inSlowEMA  = input.int(200, 'Slow EMA', step = 5)
+inRsiLen   = input.int(14, 'RSI', step = 1)
+// session input
+inpSession = input.session('0930-1100', 'Session time')
+// risk management inputs
+inRR       = input.float(2, 'RR', step = 0.1)
+inSlPts    = input.int(25, 'SL PTS', step = 1)
+
+// SESSION FILTER
+inSession = not na(time(timeframe.period, inpSession, 'America/New_York'))
+
+// INDICATOR TA
+RSI     = ta.rsi(close, inRsiLen)
+fastEMA = ta.ema(close, inFastEMA)
+slowEMA = ta.ema(close, inSlowEMA)
+
+// INDICATOR CALCULATIONS -- trend identification
+bullTrend = fastEMA > slowEMA
+bearTrend = fastEMA < slowEMA
+
+BullRSI   = RSI > 50
+BearRSI   = RSI < 50
+
+// CONDITIONS
+longCondition  = inSession and bullTrend and BullRSI
+shortCondition = inSession and bearTrend and BearRSI
+
+// ENTRY
+if longCondition
+    strategy.entry('LONG', strategy.long)
+
+if shortCondition
+    strategy.entry('SHORT', strategy.short)
+
+// RISK MANAGMENT
+entryPrice = strategy.position_avg_price
+// long risk management
+longSL  = entryPrice - inSlPts
+longTP  = entryPrice + (inSlPts * inRR)
+// short risk management
+shortSL = entryPrice + inSlPts
+shortTP = entryPrice - (inSlPts * inRR)
+
+// EXIT
+strategy.exit('LONG exit', from_entry = 'LONG', limit = longTP, stop = longSL)
+strategy.exit('SHORT exit', from_entry = 'SHORT', limit = shortTP, stop = shortSL)
+
+// PLOTTING TREND LINES
+plot(fastEMA, color = color.blue, title = "Fast EMA")
+plot(slowEMA, color = color.black, title = "Slow EMA")
