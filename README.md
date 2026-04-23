@@ -16,3 +16,4 @@ Developed as part of personal research into quantitative strategy and ICT concep
 
 ## Backtesting Environment
 - Platform: TradingView Strategy Tester
+- Trading Instrument: NasDaq Futures only
