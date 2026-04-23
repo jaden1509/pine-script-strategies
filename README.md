@@ -6,7 +6,7 @@ Developed as part of personal research into quantitative strategy and ICT concep
 
 ## Strategies
 
-| Strategy | Description | Instrument | Timeframe |
+**| Strategy | Description | Instrument | Timeframe |**
 
 | iFVG entry | trades only iFVG's | NQ1! | all timeframes |
 
